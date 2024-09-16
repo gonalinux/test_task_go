@@ -38,7 +38,12 @@ func calculator(str string) string {
 		operand1 = opr1
 	} else {
 		operand1isArabic = false
-		operand1 = toArabic(splittedStr[0])
+		op1 := strings.ToUpper(splittedStr[0])
+
+		if checkRoman(op1) {
+			operand1 = toArabic(op1)
+		}
+
 	}
 
 	if opr2, err := strconv.Atoi(splittedStr[2]); err == nil {
@@ -46,7 +51,11 @@ func calculator(str string) string {
 		operand2 = opr2
 	} else {
 		operand2isArabic = false
-		operand2 = toArabic(splittedStr[2])
+		op2 := strings.ToUpper(splittedStr[2])
+
+		if checkRoman(op2) {
+			operand2 = toArabic(op2)
+		}
 	}
 
 	if !operand1isArabic && operand2isArabic || operand1isArabic && !operand2isArabic {
@@ -68,7 +77,6 @@ func calculator(str string) string {
 	}
 
 	return result
-
 }
 
 func calculation(operand1 int, operand2 int, operator string) string {
@@ -102,7 +110,6 @@ func calculation(operand1 int, operand2 int, operator string) string {
 	default:
 		panic("Недопустимая арифметическая операция")
 	}
-
 }
 
 func getArabic(roman string) int {
@@ -146,6 +153,29 @@ func toArabic(roman string) int {
 		}
 	}
 	return result
+}
+
+func checkRoman(roman string) bool {
+	romans := map[string]int{
+		"I":    1,
+		"II":   2,
+		"III":  3,
+		"IV":   4,
+		"V":    5,
+		"VI":   6,
+		"VII":  7,
+		"VIII": 8,
+		"IX":   9,
+		"X":    10,
+	}
+
+	_, ok := romans[roman]
+
+	if !ok {
+		panic("Недопустимое число")
+	} else {
+		return true
+	}
 }
 
 func toRoman(arabic int) string {
